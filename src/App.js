@@ -6,68 +6,52 @@ const App = () => {
 
   useEffect(() => {
     console.clear();
-    //we can view the document object model full
-    console.dir(document);
-    //to access my domain
-    console.log(document.domain);
-    //to access the entire url
-    console.log(document.URL);
-    //to access the document title
-    console.log(document.title);
-    document.title = "Test";//we can edit the title too
-    //to access any forms
-    console.log(document.forms[0]);
-    //get element by id
-    console.log(document.getElementById('header-title'));
-    let titleheading = document.getElementById('header-title');
-    console.log(titleheading.textContent);
-    console.log(titleheading.innerText);//both are almost same except in showing some styled contents
-    //we can also style using the dom property
-    let header = document.getElementById("main-header");
-    header.style.borderBottom="10px solid black";
-    //get element by classname
-    let list2 = document.getElementsByClassName('list-group-item');
-    console.log(list2);
-    // list2[1].innerText = "Maddy2";
-    // list2[1].style.background = "yellow";
-    // list2[1].style.fontWeight = "bold";
-    for(var i=0;i<list2.length;i++){
-      list2[i].style.background = "white";
-    }
-    //get element by tagname
-    let li2 = document.getElementsByTagName('li');
-    console.log(li2);
+   //traversing the dom
+    //lets find the parent node
+    var itemsparent = document.querySelector('#items');
+    //console.log(itemsparent.parentNode);
+    itemsparent.parentNode.style.background="grey";
+    //actually we chain the node to get parentelement
+    // console.log('parentnode',itemsparent.parentNode.parentNode.parentNode);
+    //  similarly parent elements are same as parent nodes
+    // console.log('parentelement',itemsparent.parentElement.parentElement.parentElement);
 
-    //Queryselector fetches anything but the first instance
-    var header2 = document.querySelector("#main-header");//note we need to give # for id and . for classname
-    console.log(header2);
-    header.style.border = "3px solid red";
-    var input = document.querySelector('input');
-    input.value = "Hello Maddy";
-    var submit = document.querySelector('input[type="submit"]');
-    submit.value = "Send";
+    //getting the child nodes
+    console.log('childnodes',itemsparent.childNodes)//gets all the children including line breaks (not recommended) -> nodelist
+    console.log('children',itemsparent.children)//gets all the children excluding line breaks (recommended) ->html collection
+    itemsparent.children[1].style.background = "yellow";
+    console.log(itemsparent.firstElementChild);
+    itemsparent.firstElementChild.textContent="Mady"
+    itemsparent.lastElementChild.textContent="Popeye";
 
-    //we can access whichever child item we want
-    var firstitem = document.querySelector('.list-group-item');
-    firstitem.style.color='green';
+    //next sibling
+    console.log(itemsparent.nextSibling);//not recommended
+    console.log(itemsparent.nextElementSibling);//recommended
 
-    var lastitem = document.querySelector('.list-group-item:last-child');
-    lastitem.style.color='red';
+    //previous sibling
+    console.log(itemsparent.previousSibling);//not recommended
+    console.log(itemsparent.previousElementSibling);//recommended
 
-    // var seconditem = document.querySelector('.list-group-item:nth-child(2)');
-    // seconditem.style.background='navy';
-    // seconditem.style.color='white';
+    //creating a new div
 
-    //query selector all returns a node list(arrays)
-
-    var title = document.querySelectorAll('.title');
-    console.log(title);
-
-    //queryselectorAll method offers flexibility of styling alternate items
-    var listitemsodd = document.querySelectorAll('li:nth-child(odd)');
-    for(var i=0;i<listitemsodd.length;i++){
-      listitemsodd[i].style.background = "orange";
-    }
+    var newdiv = document.createElement('div');
+    //adding classname
+    newdiv.className="myname";
+    //adding id
+    newdiv.id="mynameid";
+    //setting attributes
+    newdiv.setAttribute('title', 'mytitle');
+    // enter a textnode
+    var newdivtext = document.createTextNode('hello world');
+    //add text to div
+    newdiv.appendChild(newdivtext);
+    console.log(newdiv);
+    //now if we want to insert before the header h1 inside the container div
+    var container = document.querySelector('header .container');
+    console.log('container',container)
+    var h1 = document.querySelector('header h1');
+    console.log('h1',h1);
+    container.insertBefore(newdiv,h1);
   }, [])
 
   return (
