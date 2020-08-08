@@ -7,52 +7,79 @@ const App = () => {
   useEffect(() => {
     console.clear();
    //traversing the dom
-    //lets find the parent node
-    var itemsparent = document.querySelector('#items');
-    //console.log(itemsparent.parentNode);
-    itemsparent.parentNode.style.background="grey";
-    //actually we chain the node to get parentelement
-    // console.log('parentnode',itemsparent.parentNode.parentNode.parentNode);
-    //  similarly parent elements are same as parent nodes
-    // console.log('parentelement',itemsparent.parentElement.parentElement.parentElement);
+    //event listeners
+    var button = document.getElementById('button').addEventListener('click', ()=>{
+      console.clear();
+      console.log('clicked')});//method 1
 
-    //getting the child nodes
-    console.log('childnodes',itemsparent.childNodes)//gets all the children including line breaks (not recommended) -> nodelist
-    console.log('children',itemsparent.children)//gets all the children excluding line breaks (recommended) ->html collection
-    itemsparent.children[1].style.background = "yellow";
-    console.log(itemsparent.firstElementChild);
-    itemsparent.firstElementChild.textContent="Mady"
-    itemsparent.lastElementChild.textContent="Popeye";
-
-    //next sibling
-    console.log(itemsparent.nextSibling);//not recommended
-    console.log(itemsparent.nextElementSibling);//recommended
-
-    //previous sibling
-    console.log(itemsparent.previousSibling);//not recommended
-    console.log(itemsparent.previousElementSibling);//recommended
-
-    //creating a new div
-
-    var newdiv = document.createElement('div');
-    //adding classname
-    newdiv.className="myname";
-    //adding id
-    newdiv.id="mynameid";
-    //setting attributes
-    newdiv.setAttribute('title', 'mytitle');
-    // enter a textnode
-    var newdivtext = document.createTextNode('hello world');
-    //add text to div
-    newdiv.appendChild(newdivtext);
-    console.log(newdiv);
-    //now if we want to insert before the header h1 inside the container div
-    var container = document.querySelector('header .container');
-    console.log('container',container)
-    var h1 = document.querySelector('header h1');
-    console.log('h1',h1);
-    container.insertBefore(newdiv,h1);
+      var button = document.getElementById('button').addEventListener('click', buttonclick);//method 2
+      //var eventbutton = document.getElementById('eventbutton').addEventListener('dblclick', eventbuttonclick);//various events
+      //var eventbutton = document.getElementById('eventbutton').addEventListener('mousedown', eventbuttonclick);
+      // var eventbutton = document.getElementById('eventbutton').addEventListener('mouseup', eventbuttonclick);
+      // var mouseevent = document.getElementById('box').addEventListener('mouseover', mouseeventbuttonclick);
+      // var mouseevent = document.getElementById('box').addEventListener('mouseenter', mouseeventbuttonclick);
+      // var mouseevent = document.getElementById('box').addEventListener('mouseleave', mouseeventbuttonclick);
+      // var mouseevent = document.getElementById('box').addEventListener('mouseout', mouseeventbuttonclick);
+      var mouseevent = document.getElementById('box').addEventListener('mousemove', mouseeventbuttonclick);
+      // var inputevent2 = document.querySelector('input[type="text"]').addEventListener('keydown', inputevent);
+      //  var inputevent2 = document.querySelector('input[type="text"]').addEventListener('keyup', inputevent);
+      // var inputevent2 = document.querySelector('input[type="text"]').addEventListener('keypress', inputevent);
+      // var inputevent2 = document.querySelector('input[type="text"]').addEventListener('focus', inputevent);
+      // var inputevent2 = document.querySelector('input[type="text"]').addEventListener('blur', inputevent);
+      // var inputevent2 = document.querySelector('input[type="text"]').addEventListener('cut', inputevent);
+      // var inputevent2 = document.querySelector('input[type="text"]').addEventListener('paste', inputevent);
+      var inputevent2 = document.querySelector('input[type="text"]').addEventListener('input', inputevent);
+      var select = document.querySelector('select').addEventListener('change', inputevent);
+      var formsubmit = document.querySelector('form').addEventListener('submit', inputevent);
   }, [])
+
+  const inputevent=(e)=>{
+    e.preventDefault();
+    console.clear();
+    console.log('clicked',e.type,e.target.value);
+  }
+
+  const buttonclick=(e)=>{
+    console.clear()
+    // document.getElementById('header-title').textContent = "Hello changed";
+    // document.querySelector('#main').style.background = "grey";
+    console.log(e);
+    console.log(e.target);
+    console.log(e.target.id);
+    console.log(e.target.className);
+    console.log(e.target.classList);//return dom token list of classes
+    var buttoncontent = document.getElementById('buttoncontent');
+    buttoncontent.innerHTML = e.target.id;
+    console.log(e.type)//returns the type of event
+    console.log(e.clientX);//returns the actual element position mouse wrt width
+    console.log(e.clientY);//returns the actual element position mouse wrt height
+    console.log(e.offsetX);//returns the actual element position mouse wrt width
+    console.log(e.offsetY);//returns the actual element position mouse wrt height
+
+    //key pressed
+    console.log(e.altKey);//returns true if button is clicked with holding alt key;
+    console.log(e.ctrlKey);//returns true if button is clicked with holding ctrl key
+    console.log(e.shiftKey);//returns true if button is clicked with holding shift key
+    if(e.altKey && e.ctrlKey){
+      alert("opened");
+    }
+  }
+
+  const eventbuttonclick=(e)=>{
+    console.clear();
+    console.log('clicked',e.type);
+  }
+  const mouseeventbuttonclick=(e)=>{
+    console.clear();
+    console.log('clicked',e.type);
+    var output = `OutputX : ${e.offsetX} ,OutputY: ${e.offsetY}`;
+    var h3 = document.getElementById('h3').innerHTML=output;
+    var box = document.getElementById('box');
+    document.body.style.background = `rgb(${e.offsetX},${e.offsetY},100)`
+    //box.style.background = `rgb(${e.offsetX},${e.offsetY},100)`
+  }
+
+
 
   return (
     <div >
@@ -66,6 +93,11 @@ const App = () => {
     <h2 className="title">Add Items</h2>
     <form className="form-inline mb-3">
       <input type="text" className="form-control mr-2"/>
+      <select className="form-control mr-2">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
       <input type="submit" className="btn btn-dark" value="Submit"/>
     </form>
     <h2 className="title">Items</h2>
@@ -75,6 +107,15 @@ const App = () => {
       <li className="list-group-item">Item 3</li>
       <li className="list-group-item">Item 4</li>
     </ul>
+    <br/>
+    <h4 id="buttoncontent"></h4>
+    <button className="btn btn-dark btn-block" id="button">CLICK</button>
+    <button className="btn btn-dark btn-block" id="eventbutton">EVENTS</button>
+    <br/>
+    <div id="box" style={{width:"200px",height:"200px",background:"orange"}}>
+      <h3 >Hello</h3>
+      <h3 id="h3"></h3>
+    </div>
    </div>
   </div>
     </div>
