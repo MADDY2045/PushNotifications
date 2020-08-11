@@ -16,3 +16,8 @@ what is a service worker ?
 //Push Notifications(push & notification API)
 //background data sync / preload
 //used in progressive web apps
+
+//Service worker life cycle
+//Register --> Install(event) -- > Activate(event)
+//Messaging events and functional events --> "fetch","push" and "sync"
+
