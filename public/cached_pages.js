@@ -16,19 +16,12 @@ const cacheAssets=[
 
 
 self.addEventListener('push', (e)=>{
-    const data = e.data.json();
+    const output = e.data.json();
+
+    let options = output.options
+    console.log('e.data is',options);
     console.log('push has been received!!!');
-    self.registration.showNotification(data.name,{
-        body:'Sent by Madhavan',
-         vibrate: [100, 50, 100],
-        icon:'https://www.maddyportal.com/Portals/_default/Skins/molly-portal-theme/img/maddy-logo.jpg',
-        actions: [
-          {action: 'explore', title: 'Explore this new world',
-            icon: ''},
-          {action: 'close', title: 'Close notification',
-            icon: ''},
-        ]
-    })
+    self.registration.showNotification(output.name,options)
 })
 // install event listener
 self.addEventListener('install', (e)=>{

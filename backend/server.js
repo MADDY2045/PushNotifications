@@ -16,13 +16,29 @@ webpush.setVapidDetails('mailto:madhavan@growsmartsmb.com',publicVapidkey,privat
 
 app.post('/subscribe',(req,res)=>{
     //assign subscription
-const subscription = req.body;
+const subscription = req.body.subscription;
 
 //send status
 res.status(201).send("received");
 
 //create payload
-const payload = JSON.stringify({name:"Madhavan Sankaran"});
+
+var options ={
+        body:`Sales Invoice # ${req.body.txn} of Rs. ${req.body.amount} \n Created by_: Madhavan S`,
+        vibrate: [100, 50, 100],
+        icon:'https://p7.hiclipart.com/preview/698/553/77/computer-icons-desktop-wallpaper-success-save-png.jpg',
+        actions: [
+          {action: 'explore', title: 'Trace',
+            image: 'https://p7.hiclipart.com/preview/698/553/77/computer-icons-desktop-wallpaper-success-save-png.jpg'},
+          {action: 'close', title: 'Close notification',
+            icon: 'https://p7.hiclipart.com/preview/698/553/77/computer-icons-desktop-wallpaper-success-save-png.jpg'},
+            {action: 'close', title: 'Close',
+            icon: ''},
+        ]
+}
+
+
+const payload = JSON.stringify({name:"Sent Succesfully!!!",options});
 
 //pass object to send notification
 webpush.sendNotification(subscription,payload).catch(err=>console.log(`err in sending notification ${err}`));
