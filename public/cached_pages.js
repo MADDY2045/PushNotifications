@@ -14,12 +14,20 @@ const cacheAssets=[
     '../src/index.js'
 ]
 
+
 self.addEventListener('push', (e)=>{
     const data = e.data.json();
     console.log('push has been received!!!');
     self.registration.showNotification(data.name,{
-        body:'Sent by Maddy',
-        icon:'http://image.ibb.co/frYOFd/tmlogo.png'
+        body:'Sent by Madhavan',
+         vibrate: [100, 50, 100],
+        icon:'https://www.maddyportal.com/Portals/_default/Skins/molly-portal-theme/img/maddy-logo.jpg',
+        actions: [
+          {action: 'explore', title: 'Explore this new world',
+            icon: ''},
+          {action: 'close', title: 'Close notification',
+            icon: ''},
+        ]
     })
 })
 // install event listener
@@ -57,3 +65,20 @@ self.addEventListener('fetch', (e)=>{
     e.respondWith(fetch(e.request).catch(()=>caches.match(e.request))
     )
 })
+
+self.addEventListener('notificationclose', function(e) {
+    var notification = e.notification;
+    console.log('Closed notification: ');
+  });
+
+  self.addEventListener('notificationclick', function(e) {
+    var notification = e.notification;
+        var action = e.action;
+
+    if (action === 'close') {
+      notification.close();
+    } else {
+      clients.openWindow('http://www.youtube.com');
+      notification.close();
+    }
+  });
