@@ -13,6 +13,15 @@ const cacheAssets=[
     '../node_modules',
     '../src/index.js'
 ]
+
+self.addEventListener('push', (e)=>{
+    const data = e.data.json();
+    console.log('push has been received!!!');
+    self.registration.showNotification(data.name,{
+        body:'Sent by Maddy',
+        icon:'http://image.ibb.co/frYOFd/tmlogo.png'
+    })
+})
 // install event listener
 self.addEventListener('install', (e)=>{
     console.log(`service worker installed...`)
