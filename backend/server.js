@@ -5,7 +5,7 @@ const cors = require('cors');
 
 app.use(express.json());
 app.use(cors());
-const port = 6040;
+const port = 6090;
 
 const publicVapidkey = 'BK3AcnFdTx0BH-RLhsSkk1hzbiMBnuo2MYqZ-1m8KZzcBKygRFNTtfEHP2k6sR_9Pi-FuiK5RGGsOhcqT036tU4';
 const privateVapidkey = 'jpKrpXh8Fcz3jbqNYBVgG5SwTWL51vyIW1vuYpegut8';
