@@ -27,10 +27,20 @@ const Home = () => {
         console.log('txn is',txn);
         console.log('amount is',amount);
         if('serviceWorker' in navigator){
+
+
+            Notification.requestPermission().then(function(permission) {
+                console.log(permission);
+                if(permission === 'denied'){
+                    alert('You Have Denied Notification!');
+                }else if(permission === 'granted'){
+                    alert('You Have Granted notification.');
+                }
+            })
            console.log('service worker supported in handle notify');
            console.log('Registering service worker .....');
            const register = await navigator.serviceWorker.register('/cached_pages.js');
-           console.log('Registering push!!!!!');
+            console.log('Registering push!!!!!');
         //Register Push
            let subscription = await register.pushManager.subscribe({
             userVisibleOnly:true,
@@ -49,6 +59,7 @@ const Home = () => {
             })
             console.log('Push Sent .....');
 
+
                 }
     }
 
@@ -60,6 +71,17 @@ const Home = () => {
             setAmount(e.target.value)
         }
        }
+
+       const getNotification=async ()=>{
+        console.clear();
+        navigator.serviceWorker.register('cached_pages.js');
+        var options = { tag : 'user_alerts' };
+        navigator.serviceWorker.ready.then(function(registration) {
+            registration.getNotifications(options).then(function(notifications) {
+            console.log("notification count is",notifications)
+  })
+});
+    }
 
     return (
         <div className="container" >
@@ -74,7 +96,10 @@ const Home = () => {
                     </div>
                     <button className="btn btn-outline-primary">Notify Me</button>
                 </form>
-
+                <button
+                onClick={getNotification}
+                style={{position:"absolute",width:"100px",top:"400px",left:"315px"}}
+                className="btn btn-outline-primary">Get Details</button>
                 </div>
             </div>
 

@@ -23,6 +23,7 @@ self.addEventListener('push', (e)=>{
     console.log('push has been received!!!');
     self.registration.showNotification(output.name,options)
 })
+
 // install event listener
 self.addEventListener('install', (e)=>{
     console.log(`service worker installed...`)

@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const webpush = require('web-push');
+const dateformat = require('dateformat');
 const cors = require('cors');
 
 app.use(express.json());
@@ -17,7 +18,7 @@ webpush.setVapidDetails('mailto:madhavan@growsmartsmb.com',publicVapidkey,privat
 app.post('/subscribe',(req,res)=>{
     //assign subscription
 const subscription = req.body.subscription;
-
+console.log(req.body);
 //send status
 res.status(201).send("received");
 
@@ -41,7 +42,10 @@ var options ={
 const payload = JSON.stringify({name:"Sent Succesfully!!!",options});
 
 //pass object to send notification
-webpush.sendNotification(subscription,payload).catch(err=>console.log(`err in sending notification ${err}`));
+webpush.sendNotification(subscription,payload).then(response=>{
+  console.log('created at:::',dateformat(response.headers.date,"dd/mm/yyyy HH:MM:ss"));
+  console.log("payload is::",JSON.parse(payload)["options"].body);
+}).catch(err=>console.log(`err in sending notification ${err}`));
 
 })
 
